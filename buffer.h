@@ -1,6 +1,6 @@
 class Buffer {
     const unsigned size;
-    unsigned rx_;   // where to read
+    unsigned rx_;     // where to read
     unsigned count;   //usage
     int * const data_;
     /*
