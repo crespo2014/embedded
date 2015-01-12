@@ -10,11 +10,10 @@ int* D::pc = &D::c;
 
 #include "buffer.h"
 #include <iostream>
+#include "gpioport.h"
 
 using namespace std;
 int main() {
-    D d;
-
     Buffer b(3);
     b.push(4);
     b.push(5);
