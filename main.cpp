@@ -19,11 +19,9 @@ int main()
 	bcd bcd1(16, port1);
 	motor motor1(20, port1);
 
-	for (int i = 0; i < 100; i++)
-	{
-		wait();
-		bcd1.set(i % 10);
-		motor1.changeDirection();
-	}
+	enum WashProgrammer::step_e was1[]={WashProgrammer::rinse,WashProgrammer::spin};
+	WashProgrammer	washer(bcd1,was1,2);
+	washer.run();
+
 	return 0;
 }

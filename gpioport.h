@@ -1,11 +1,10 @@
-
 #ifndef GPIOPORT_H_
 #define GPIOPORT_H_
 
 #include "stdint.h"
+#include <list>
 
 //@todo ping number to be enum, isset function
-
 
 namespace lpc2129
 {
@@ -53,9 +52,15 @@ class motor
 {
 	const uint8_t base_pin;
 	gpio& gpio_;
-	enum pins { control,direction};
+	enum pins
+	{
+		control, direction
+	};
 public:
-	enum direction_e { cw, acw};
+	enum direction_e
+	{
+		cw, acw
+	};
 	motor(uint8_t base, gpio& gpio_reg);
 	void on();
 	void off();
@@ -64,6 +69,34 @@ public:
 	direction_e getDirection();
 };
 
+class step
+{
+private:
+	bcd& sevensegment;
+	unsigned action;
+public:
+	step(bcd& segment, unsigned action);
+	void run();
+};
+
+class WashProgrammer
+{
+	std::list<step> steps;
+	void wait();
+
+public:
+	enum step_e
+	{
+		empty = 1, fill, heat, wash, rinse, spin, dry, complete
+	};
+	WashProgrammer(bcd& sevensegment, step_e* cycle, unsigned count);
+	void run();
+
+};
+
+class WMS
+{
+};
 //class uart
 //{
 //	const unsigned freq = 15 *1000*1000;
