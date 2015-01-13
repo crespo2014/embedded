@@ -21,6 +21,7 @@ void gpio::clearpin(unsigned pin)
 {
 	base->cleatpin = (0x1 << pin);
 }
+//todo two functions setAsout setasin
 void gpio::setpinDirection(unsigned pin, direction_e d)
 {
 	if (d == out)
@@ -50,8 +51,8 @@ void bcd::set(unsigned value)
 {
 	gpio_.set(base_pin, (value & 1) != 0);
 	gpio_.set(base_pin+1, (value & 2) != 0);
-	gpio_.set(base_pin+3, (value & 4) != 0);
-	gpio_.set(base_pin+4, (value & 8) != 0);
+	gpio_.set(base_pin+2, (value & 4) != 0);
+	gpio_.set(base_pin+3, (value & 8) != 0);
 //	unsigned c = 0;
 //	while (c != 4)
 //	{
@@ -60,6 +61,46 @@ void bcd::set(unsigned value)
 //		c++;
 //	}
 }
+/*
+void uart::setBaudRate(unsigned brate)
+{
+}
+*/
 
+
+
+motor::motor(uint8_t base, gpio& gpio_reg) :
+		base_pin(base), gpio_(gpio_reg)
+{
+	gpio_reg.setpinDirection(base+control,gpio::out);
+	gpio_reg.setpinDirection(base+direction,gpio::out);
+	off();
+	setDirection(cw);
 }
 
+void motor::on()
+{
+	gpio_.setpin(base_pin + control);
+}
+
+void motor::off()
+{
+	gpio_.clearpin(base_pin + control);
+}
+
+void motor::setDirection(direction_e dir)
+{
+	(dir == cw) ? gpio_.clearpin(base_pin + direction) : gpio_.setpin(base_pin + direction);
+}
+
+motor::direction_e motor::getDirection()
+{
+	return gpio_.readpin(base_pin + direction) ? acw : cw;
+}
+
+void motor::changeDirection()
+{
+	setDirection(getDirection() == cw ? acw : cw);
+}
+
+}
