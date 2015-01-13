@@ -11,7 +11,7 @@ class Buffer {
     */
 
 public:
-   explicit  Buffer(unsigned max_size);
+    Buffer(unsigned max_size);
     bool push(int v);
     bool pop(int& v);
     ~Buffer();

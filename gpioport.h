@@ -108,15 +108,15 @@ public:
 	};
 	WashProgrammer(bcd& sevensegment, step* cycle, unsigned count);
 	void run();
-
 };
 
 class WMS
 {
-	std::list<WashProgrammer> programs;
-	WashProgrammer* current;
+	WashProgrammer* const programs;
+	const unsigned max;
+	unsigned current;
 public:
-	WMS(bcd& sevensegment,motor& motor1);
+	WMS(WashProgrammer* prog,unsigned count);
 	void changeProgram();
 	void run();
 };
