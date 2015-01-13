@@ -3,6 +3,7 @@
 
 #include "stdint.h"
 #include <list>
+//#include <initializer_list>
 
 //@todo ping number to be enum, isset function
 
@@ -71,17 +72,33 @@ public:
 
 class step
 {
+public:
+	virtual void run() =0;
+	virtual ~step() {} ;
+};
+
+class SingleStep : public step
+{
 private:
 	bcd& sevensegment;
 	unsigned action;
 public:
-	step(bcd& segment, unsigned action);
-	void run();
+	SingleStep(bcd& segment, unsigned action);
+	virtual void run();
+};
+
+class MotorWash : public step
+{
+private:
+	bcd& sevensegment;
+public:
+	MotorWash(bcd& segment);
+	virtual void run();
 };
 
 class WashProgrammer
 {
-	std::list<step> steps;
+	std::list<step*> steps;
 	void wait();
 
 public:
@@ -89,13 +106,19 @@ public:
 	{
 		empty = 1, fill, heat, wash, rinse, spin, dry, complete
 	};
-	WashProgrammer(bcd& sevensegment, step_e* cycle, unsigned count);
+	WashProgrammer(bcd& sevensegment, step* cycle, unsigned count);
 	void run();
 
 };
 
 class WMS
 {
+	std::list<WashProgrammer> programs;
+	WashProgrammer* current;
+public:
+	WMS(bcd& sevensegment,motor& motor1);
+	void changeProgram();
+	void run();
 };
 //class uart
 //{

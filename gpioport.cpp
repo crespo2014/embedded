@@ -1,5 +1,7 @@
 #include "gpioport.h"
 
+#include <algorithm>
+
 namespace lpc2129
 {
 gpio::gpio(unsigned long address) :
@@ -102,12 +104,12 @@ void motor::changeDirection()
 	setDirection(getDirection() == cw ? acw : cw);
 }
 
-step::step(bcd& segment, unsigned action) :
+SingleStep::SingleStep(bcd& segment, unsigned action) :
 		sevensegment(segment), action(action)
 {
 }
 
-void step::run()
+void SingleStep::run()
 {
 	sevensegment.set(action);
 }
@@ -116,7 +118,7 @@ WashProgrammer::WashProgrammer(bcd& sevensegment, step_e* cycle, unsigned count)
 {
 	for (unsigned i = 0; i < count; i++)
 	{
-		steps.push_back(step(sevensegment, cycle[i]));
+		steps.push_back(new SingleStep(sevensegment, cycle[i]));
 	}
 //	steps.push_back(step(sevensegment, fill));
 //	steps.push_back(step(sevensegment, heat));
@@ -136,11 +138,54 @@ void WashProgrammer::wait()
 
 void WashProgrammer::run()
 {
-	for (std::list<step>::iterator it = steps.begin(); it != steps.end(); it++)
+	for (std::list<step*>::iterator it = steps.begin(); it != steps.end(); it++)
 	{
-		(*it).run();
+		(*it)->run();
 		wait();
 	}
 }
 
+WMS::WMS(bcd& sevensegment,motor& motor1)
+{
+	step *step1[2] = { new SingleStep(sevensegment,WashProgrammer::empty),new MotorWash(sevensegment)};
+	WashProgrammer prog1(sevensegment, step1, 2);
+	programs.push_back(prog1);
+
+
+//	{
+//		enum WashProgrammer::step_e was2[] =
+//		{ WashProgrammer::rinse, WashProgrammer::spin, WashProgrammer::dry,
+//				WashProgrammer::fill };
+//		WashProgrammer prog2(sevensegment, was2, 4);
+//		programs.push_back(prog2);
+//	}
+	current = &(*programs.begin());
+}
+void WMS::run()
+{
+	current->run();
+}
+void WMS::changeProgram()
+{
+	std::list<WashProgrammer>::iterator it = programs.begin();
+	while (&(*it) != current)
+	{
+		++it;
+	}
+	++it;
+	if (it == programs.end())
+		it = programs.begin();
+	current = &(*it);
+}
+
 } // namespace lpc2129
+
+lpc2129::MotorWash::MotorWash(bcd& segment) : sevensegment(bcd)
+{
+}
+
+void lpc2129::MotorWash::run()
+{
+	sevensegment.set(4);
+
+}
