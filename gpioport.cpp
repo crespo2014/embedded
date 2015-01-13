@@ -1,6 +1,8 @@
 
 #include "gpioport.h"
 
+namespace lpc2129
+{
 gpio::gpio(unsigned long address) :
 		base(reinterpret_cast<gpio_s*>(address))
 {
@@ -46,12 +48,18 @@ bcd::bcd(uint8_t base, gpio& gpio_reg) :
 
 void bcd::set(unsigned value)
 {
-	unsigned c = 0;
-	while (c != 4)
-	{
-		gpio_.set(base_pin + c, (value & 1) != 0);
-		value >>= 1;
-		c++;
-	}
+	gpio_.set(base_pin, (value & 1) != 0);
+	gpio_.set(base_pin+1, (value & 2) != 0);
+	gpio_.set(base_pin+3, (value & 4) != 0);
+	gpio_.set(base_pin+4, (value & 8) != 0);
+//	unsigned c = 0;
+//	while (c != 4)
+//	{
+//		gpio_.set(base_pin + c, (value & 1) != 0);
+//		value >>= 1;
+//		c++;
+//	}
+}
+
 }
 
