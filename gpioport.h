@@ -118,16 +118,16 @@ public:
 	void run();
 };
 
-class WMS
-{
-	WashProgrammer* const programs;
-	const unsigned max;
-	unsigned current;
-public:
-	WMS(WashProgrammer* prog,unsigned count);
-	void changeProgram();
-	void run();
-};
+//class WMS
+//{
+//	WashProgrammer* const programs;
+//	const unsigned max;
+//	unsigned current;
+//public:
+//	WMS(WashProgrammer* prog,unsigned count);
+//	void changeProgram();
+//	void run();
+//};
 //class uart
 //{
 //	const unsigned freq = 15 *1000*1000;

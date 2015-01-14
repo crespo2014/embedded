@@ -9,12 +9,13 @@
 #define UARTOUTPUT_H_
 
 #include "ioutput.h"
+#include "Uart.h"
 
 class uartOutput: public iOutput
 {
-	UART& uart;
+  LPC2129::UART& uart;
 public:
-	uartOutput(UART& uart);
+  uartOutput(LPC2129::UART& uart);
 	virtual void display(unsigned step);
 	virtual ~uartOutput();
 };

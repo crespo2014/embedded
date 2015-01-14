@@ -7,7 +7,7 @@
 
 #include "uartOutput.h"
 
-uartOutput::uartOutput(UART& uart) : uart(uart)
+uartOutput::uartOutput(LPC2129::UART& uart) : uart(uart)
 {
 	// TODO Auto-generated constructor stub
 
@@ -15,7 +15,7 @@ uartOutput::uartOutput(UART& uart) : uart(uart)
 
 void uartOutput::display(unsigned step)
 {
-	uart.write(step & 0xff);
+	uart.write((char)(step &0xff)+0x30);
 }
 
 uartOutput::~uartOutput()

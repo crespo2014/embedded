@@ -113,7 +113,7 @@ void SingleStep::run()
 {
 	sevensegment.set(action);
 }
-
+ /*
 WashProgrammer::WashProgrammer(bcd& sevensegment, step_e* cycle, unsigned count)
 {
 	for (unsigned i = 0; i < count; i++)
@@ -128,6 +128,7 @@ WashProgrammer::WashProgrammer(bcd& sevensegment, step_e* cycle, unsigned count)
 //	steps.push_back(step(sevensegment, dry));
 //	steps.push_back(step(sevensegment, complete));
 }
+*/
 
 void WashProgrammer::wait()
 {
@@ -145,47 +146,49 @@ void WashProgrammer::run()
 	}
 }
 
-WMS::WMS(bcd& sevensegment,motor& motor1)
-{
-	step *step1[2] = { new SingleStep(sevensegment,WashProgrammer::empty),new MotorWash(sevensegment)};
-	WashProgrammer prog1(sevensegment, step1, 2);
-	programs.push_back(prog1);
-
-
+//WMS::WMS(bcd& sevensegment,motor& motor1)
+//{
+//	step *step1[2] = { new SingleStep(sevensegment,WashProgrammer::empty),new MotorWash(sevensegment)};
+//	WashProgrammer prog1(sevensegment, step1, 2);
+//	programs.push_back(prog1);
+//
+//
+////	{
+////		enum WashProgrammer::step_e was2[] =
+////		{ WashProgrammer::rinse, WashProgrammer::spin, WashProgrammer::dry,
+////				WashProgrammer::fill };
+////		WashProgrammer prog2(sevensegment, was2, 4);
+////		programs.push_back(prog2);
+////	}
+//	current = &(*programs.begin());
+//}
+//void WMS::run()
+//{
+//	current->run();
+//}
+//void WMS::changeProgram()
+//{
+//	std::list<WashProgrammer>::iterator it = programs.begin();
+//	while (&(*it) != current)
 //	{
-//		enum WashProgrammer::step_e was2[] =
-//		{ WashProgrammer::rinse, WashProgrammer::spin, WashProgrammer::dry,
-//				WashProgrammer::fill };
-//		WashProgrammer prog2(sevensegment, was2, 4);
-//		programs.push_back(prog2);
+//		++it;
 //	}
-	current = &(*programs.begin());
-}
-void WMS::run()
-{
-	current->run();
-}
-void WMS::changeProgram()
-{
-	std::list<WashProgrammer>::iterator it = programs.begin();
-	while (&(*it) != current)
-	{
-		++it;
-	}
-	++it;
-	if (it == programs.end())
-		it = programs.begin();
-	current = &(*it);
-}
+//	++it;
+//	if (it == programs.end())
+//		it = programs.begin();
+//	current = &(*it);
+//}
+
+
+//
+//MotorWash::MotorWash(bcd& segment) : sevensegment(bcd)
+//{
+//}
+//
+//void MotorWash::run()
+//{
+//	sevensegment.set(4);
+//
+//}
 
 } // namespace lpc2129
-
-lpc2129::MotorWash::MotorWash(bcd& segment) : sevensegment(bcd)
-{
-}
-
-void lpc2129::MotorWash::run()
-{
-	sevensegment.set(4);
-
-}

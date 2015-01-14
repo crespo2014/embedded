@@ -17,17 +17,17 @@ int main()
 	gpio port1(0xE0028010);
 	bcd bcd1(16, port1);
 	motor motor1(20, port1);
-
-	WMS wms(bcd1,motor1);
-	wms.run();
-	wms.changeProgram();
-	wms.run();
-	wms.changeProgram();
-	wms.run();
-	wms.changeProgram();
-	wms.run();
-	wms.changeProgram();
-	wms.run();
+//
+//	WMS wms(bcd1,motor1);
+//	wms.run();
+//	wms.changeProgram();
+//	wms.run();
+//	wms.changeProgram();
+//	wms.run();
+//	wms.changeProgram();
+//	wms.run();
+//	wms.changeProgram();
+//	wms.run();
 
 	return 0;
 }
