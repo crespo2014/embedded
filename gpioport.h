@@ -77,6 +77,14 @@ public:
 	virtual ~step() {} ;
 };
 
+class motorStep
+{
+protected:
+	motor& m_;
+public:
+	motorStep(bcd& sevenSeg);
+};
+
 class SingleStep : public step
 {
 private:
