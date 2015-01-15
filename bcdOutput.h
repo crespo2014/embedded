@@ -1,3 +1,4 @@
+
 /*
  * bcdOutput.h
  *
@@ -10,12 +11,13 @@
 
 #include "gpioport.h"
 #include "ioutput.h"
+#include "SevenSegment.h"
 
 class bcdOutput : public iOutput
 {
-	lpc2129::bcd& sevensegment;
+	SevenSegment& sevensegment;
 public:
-	bcdOutput(lpc2129::bcd& sevensegment);
+	bcdOutput(SevenSegment& sevensegment);
 	virtual ~bcdOutput();
 	virtual void display(unsigned step);
 };

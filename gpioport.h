@@ -38,17 +38,6 @@ public:
 
 };
 
-//bcd segment needs 4 pins to set and clear individually
-// enum from 0 to 9
-class bcd
-{
-	const uint8_t base_pin;
-	gpio& gpio_;
-public:
-	bcd(uint8_t base, gpio& gpio_reg);
-	void set(unsigned value);
-};
-
 class motor
 {
 	const uint8_t base_pin;
@@ -76,47 +65,47 @@ public:
 	virtual void run() =0;
 	virtual ~step() {} ;
 };
-
-class motorStep
-{
-protected:
-	motor& m_;
-public:
-	motorStep(bcd& sevenSeg);
-};
-
-class SingleStep : public step
-{
-private:
-	bcd& sevensegment;
-	unsigned action;
-public:
-	SingleStep(bcd& segment, unsigned action);
-	virtual void run();
-};
-
-class MotorWash : public step
-{
-private:
-	bcd& sevensegment;
-public:
-	MotorWash(bcd& segment);
-	virtual void run();
-};
-
-class WashProgrammer
-{
-	std::list<step*> steps;
-	void wait();
-
-public:
-	enum step_e
-	{
-		empty = 1, fill, heat, wash, rinse, spin, dry, complete
-	};
-	WashProgrammer(bcd& sevensegment, step* cycle, unsigned count);
-	void run();
-};
+//
+//class motorStep
+//{
+//protected:
+//	motor& m_;
+//public:
+//	motorStep(SevenSegment& sevenSeg);
+//};
+//
+//class SingleStep : public step
+//{
+//private:
+//	bcd& sevensegment;
+//	unsigned action;
+//public:
+//	SingleStep(SevenSegment& segment, unsigned action);
+//	virtual void run();
+//};
+//
+//class MotorWash : public step
+//{
+//private:
+//	SevenSegment& sevensegment;
+//public:
+//	MotorWash(SevenSegment& segment);
+//	virtual void run();
+//};
+//
+//class WashProgrammer
+//{
+//	std::list<step*> steps;
+//	void wait();
+//
+//public:
+//	enum step_e
+//	{
+//		empty = 1, fill, heat, wash, rinse, spin, dry, complete
+//	};
+//	WashProgrammer(SevenSegment& sevensegment, step* cycle, unsigned count);
+//	void run();
+//};
 
 //class WMS
 //{

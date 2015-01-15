@@ -1,3 +1,4 @@
+
 /*
  * bcdOutput.cpp
  *
@@ -7,7 +8,7 @@
 
 #include "bcdOutput.h"
 
-bcdOutput::bcdOutput(lpc2129::bcd& sevensegment): sevensegment(sevensegment)
+bcdOutput::bcdOutput(SevenSegment& sevensegment): sevensegment(sevensegment)
 {
 	// TODO Auto-generated constructor stub
 
@@ -22,3 +23,4 @@ void bcdOutput::display(unsigned step)
 {
 	sevensegment.set(step);
 }
+

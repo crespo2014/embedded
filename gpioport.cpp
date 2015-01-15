@@ -39,35 +39,6 @@ void gpio::set(unsigned pin, bool value)
 		clearpin(pin);
 }
 
-bcd::bcd(uint8_t base, gpio& gpio_reg) :
-		base_pin(base), gpio_(gpio_reg)
-{
-	gpio_reg.setpinDirection(base, gpio::out);
-	gpio_reg.setpinDirection(base + 1, gpio::out);
-	gpio_reg.setpinDirection(base + 2, gpio::out);
-	gpio_reg.setpinDirection(base + 3, gpio::out);
-}
-
-void bcd::set(unsigned value)
-{
-	gpio_.set(base_pin, (value & 1) != 0);
-	gpio_.set(base_pin + 1, (value & 2) != 0);
-	gpio_.set(base_pin + 2, (value & 4) != 0);
-	gpio_.set(base_pin + 3, (value & 8) != 0);
-//	unsigned c = 0;
-//	while (c != 4)
-//	{
-//		gpio_.set(base_pin + c, (value & 1) != 0);
-//		value >>= 1;
-//		c++;
-//	}
-}
-/*
- void uart::setBaudRate(unsigned brate)
- {
- }
- */
-
 motor::motor(uint8_t base, gpio& gpio_reg) :
 		base_pin(base), gpio_(gpio_reg)
 {
@@ -104,15 +75,15 @@ void motor::changeDirection()
 	setDirection(getDirection() == cw ? acw : cw);
 }
 
-SingleStep::SingleStep(bcd& segment, unsigned action) :
-		sevensegment(segment), action(action)
-{
-}
-
-void SingleStep::run()
-{
-	sevensegment.set(action);
-}
+//SingleStep::SingleStep(bcd& segment, unsigned action) :
+//		sevensegment(segment), action(action)
+//{
+//}
+//
+//void SingleStep::run()
+//{
+//	sevensegment.set(action);
+//}
  /*
 WashProgrammer::WashProgrammer(bcd& sevensegment, step_e* cycle, unsigned count)
 {
@@ -129,22 +100,22 @@ WashProgrammer::WashProgrammer(bcd& sevensegment, step_e* cycle, unsigned count)
 //	steps.push_back(step(sevensegment, complete));
 }
 */
-
-void WashProgrammer::wait()
-{
-	volatile int count = 10000000;
-	while (count--)
-		;
-}
-
-void WashProgrammer::run()
-{
-	for (std::list<step*>::iterator it = steps.begin(); it != steps.end(); it++)
-	{
-		(*it)->run();
-		wait();
-	}
-}
+//
+//void WashProgrammer::wait()
+//{
+//	volatile int count = 10000000;
+//	while (count--)
+//		;
+//}
+//
+//void WashProgrammer::run()
+//{
+//	for (std::list<step*>::iterator it = steps.begin(); it != steps.end(); it++)
+//	{
+//		(*it)->run();
+//		wait();
+//	}
+//}
 
 //WMS::WMS(bcd& sevensegment,motor& motor1)
 //{
